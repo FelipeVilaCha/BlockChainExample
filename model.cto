@@ -1,0 +1,37 @@
+namespace org.acme.model
+
+asset Produto identified by nome {
+    o String nome
+    o String descricao
+    o Double valor
+}
+
+asset Carrinho identified by carrinhoID {
+    o String carrinhoID
+    o estadoCarrinho estado
+    o Double valorTotal
+        o EfetuaCompra[] compras optional
+    --> Cliente cliente
+}
+
+enum estadoCarrinho {
+  o DISPONIVEL
+  o CHEIO
+  o FINALIZADO
+}
+
+participant Cliente identified by nome {
+    o String nome
+    o Double saldoDisponivel
+}
+
+transaction EfetuaCompra {
+    o Double quantidade
+    --> Carrinho carrinho
+    --> Produto produto
+}
+
+transaction FinalizarCompra {
+  	--> Carrinho carrinho
+    --> Cliente cliente
+}
